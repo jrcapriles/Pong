@@ -26,7 +26,9 @@ class Paddle( object ):
     def check_collision(self, ball_xy):
         return not (ball_xy[2]<self.pos[0] or ball_xy[3] < self.pos[1] or ball_xy[0] > self.pos[0]+self.get_width() or ball_xy[1] > self.pos[1]+self.get_length())
         
-        
+    def get_border(self):
+        return [self.pos[0],self.pos[1],self.pos[0]+self.width, self.pos[1]+self.length]
+
     def set_position(self,pos):
         self.pos = pos
         self.update()

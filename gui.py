@@ -9,6 +9,7 @@ from Tkinter import Tk, Canvas, Frame, Label, BOTH, LEFT, PhotoImage
 
 from paddle import Paddle
 from ball import Ball
+#from player import Player
 
 class PongGUI(Frame):
   
@@ -37,7 +38,10 @@ class PongGUI(Frame):
         self.canvas = Canvas(self, bg="#0f"+str(self.bg_status))
         
         self.left = Paddle(self.canvas, 1, [30, 10], 10, 100,"#fb0")
-        self.right = Paddle(self.canvas, 1, [570, 10], 10, 100,"#05f")        
+        self.right = Paddle(self.canvas, 1, [570, 40], 10, 100,"#05f")        
+        
+        #self.right = Player(self.canvas, "CPU", "Medium", [570,10], 10, 100, "#05f")
+
         self.ball = Ball(self.canvas,1,[70,70],10)        
                 
         self.canvas.pack(fill=BOTH, expand=1)
@@ -54,8 +58,16 @@ class PongGUI(Frame):
         if event.keysym == 'w' or event.keysym == 's':
             self.left.update_position(self.player_2[event.keysym])
                 
-        if event.keysym == 'Up' or event.keysym == 'Down':
-            self.right.update_position(self.player_1[event.keysym])            
+        if event.keysym == 'Up':
+            border = self.right.get_border()
+            if border[1]>=0:
+                self.right.update_position(self.player_1[event.keysym])            
+                
+        if event.keysym == 'Down':
+            border = self.right.get_border()
+            if border[3]<=375:
+                self.right.update_position(self.player_1[event.keysym])            
+           
             #self.update_right(self.player_1[event.keysym])
 
     def reset(self):
@@ -86,9 +98,13 @@ class PongGUI(Frame):
         if self.cpu:
             pos = self.left.get_position()
             if (pos[1]>self.ball.get_center()[1]):
-                self.left.update_position(self.player_1["Up"])
+                border = self.left.get_border()
+                if border[1]>15:
+                    self.left.update_position(self.player_1["Up"])
             else:
-                self.left.update_position(self.player_1["Down"])
+                border = self.left.get_border()
+                if border[3]<375:
+                    self.left.update_position(self.player_1["Down"])
             
                 
         #Bounce top
