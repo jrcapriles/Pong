@@ -53,4 +53,7 @@ class Paddle( object ):
     
     def get_paddle(self):
         return self.paddle
-        
+    
+    def get_center(self):
+        return [self.pos[0]+self.width/2,self.pos[1]+self.length/2]
+      

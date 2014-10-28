@@ -5,7 +5,7 @@ Created on Tue Oct 28 00:13:28 2014
 @author: joser
 """
 
-from Tkinter import Tk, Canvas, Frame, Label, BOTH, LEFT, StringVar, OptionMenu
+from Tkinter import Tk, Canvas, Frame, Label, BOTH, LEFT, StringVar, OptionMenu, Button
 
 from paddle import Paddle
 from ball import Ball
@@ -30,7 +30,7 @@ class PongGUI(Frame):
     __dy = -2
     cpu = True
  
-    def __init__(self, parent,screen=[600,400], r=20):
+    def __init__(self, parent,screen=[600,400]):
         Frame.__init__(self, parent)   
         self.parent = parent     
         self.bg_status = 0
@@ -42,7 +42,7 @@ class PongGUI(Frame):
         self.parent.title("Pong")        
         self.pack(fill=BOTH, expand=1)
         
-        self.canvas = Canvas(self, bg="#0f"+str(self.bg_status))
+        self.canvas = Canvas(self, bg="#"+str(self.bg_status)+str(self.bg_status)+str(self.bg_status))
         
         self.left = Paddle(self.canvas, 1, [30, 10], 10, 100,"#fb0")
         self.right = Paddle(self.canvas, 1, [570, 40], 10, 100,"#05f")        
@@ -89,7 +89,7 @@ class PongGUI(Frame):
         self.plays = 1
         self.__dx = 2
         self.__dy = -2
-        self.canvas.configure(bg="#0f"+str(self.bg_status))
+        self.canvas.configure(bg="#"+str(self.bg_status)+str(self.bg_status)+str(self.bg_status))
         
     def update(self):
      
@@ -106,14 +106,15 @@ class PongGUI(Frame):
             if self.bg_status ==9:
                 self.bg_status = 0
 
-            self.canvas.configure(bg="#0f"+str(self.bg_status))
+            self.canvas.configure(bg="#"+str(self.bg_status)+str(self.bg_status)+str(self.bg_status))
             
+
             
         if self.cpu:
-            pos = self.left.get_position()
+            pos = self.left.get_center()
             if (pos[1]>self.ball.get_center()[1]):
                 border = self.left.get_border()
-                if border[1]>15:
+                if border[1]>0:
                     self.left.update_position(self.cpu_level[self.dificulty.get()]['Up'])#   self.player_1["Up"])
             else:
                 border = self.left.get_border()
@@ -130,12 +131,10 @@ class PongGUI(Frame):
             self.__dy = -self.__dy
             
         #Collision with paddle
-
         if self.left.check_collision(self.ball.get_position()) or self.right.check_collision(self.ball.get_position()):
             self.__dx = -self.__dx
             self.plays +=1
             self.cpu = not self.cpu
-
 
         if self.ball.get_position()[0] <= 0:
             self.__dx = -self.__dx
