@@ -5,7 +5,7 @@ Created on Tue Oct 28 00:13:28 2014
 @author: joser
 """
 
-from Tkinter import Tk, Canvas, Frame, Label, BOTH, LEFT, PhotoImage
+from Tkinter import Tk, Canvas, Frame, Label, BOTH, LEFT, StringVar, OptionMenu
 
 from paddle import Paddle
 from ball import Ball
@@ -17,6 +17,13 @@ class PongGUI(Frame):
                  'Down': 15}  
     player_2 = {'w':-15, 
                  's': 15}  
+                 
+    cpu_level = {'Easy'  : {'Up'  : -3,
+                            'Down':  3},
+                 'Medium': {'Up'  : -9,
+                            'Down':  9},
+                 'Hard'  : {'Up'  : -15,
+                            'Down': 15} }
     score = [0,0]
     plays =1
     __dx = -2
@@ -48,7 +55,14 @@ class PongGUI(Frame):
         
         self.score_msg = '  Home  0 - 0  Visitor  '
         self.label_score = Label(self, text=self.score_msg, width=len(self.score_msg), bg='yellow')
-        self.label_score.pack()#(side=LEFT, fill=BOTH)
+        
+        
+        self.choices = ['Easy', 'Medium', 'Hard']
+        self.dificulty = StringVar()
+        self.dificulty.set('Medium')
+        self.option = OptionMenu(self, self.dificulty, *self.choices)
+        self.option.pack(side=LEFT, fill=BOTH)
+        self.label_score.pack(side= LEFT, fill=BOTH)
         
         self.after(200, self.update)
 
@@ -100,11 +114,11 @@ class PongGUI(Frame):
             if (pos[1]>self.ball.get_center()[1]):
                 border = self.left.get_border()
                 if border[1]>15:
-                    self.left.update_position(self.player_1["Up"])
+                    self.left.update_position(self.cpu_level[self.dificulty.get()]['Up'])#   self.player_1["Up"])
             else:
                 border = self.left.get_border()
                 if border[3]<375:
-                    self.left.update_position(self.player_1["Down"])
+                    self.left.update_position(self.cpu_level[self.dificulty.get()]['Down'])#self.player_1["Down"])
             
                 
         #Bounce top
