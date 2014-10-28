@@ -21,6 +21,9 @@ class Ball(object):
         self.pos = pos
         self.canvas.coords(self.ball, self.pos[0]-self.radious, self.pos[1]-self.radious,self.pos[0]+self.radious, self.pos[1]+self.radious)
         
+    def get_center(self):
+        return self.pos        
+        
     def get_position(self):
         return [self.pos[0]-self.radious,self.pos[1]-self.radious,self.pos[0]+self.radious,self.pos[1]+self.radious]
         

@@ -20,7 +20,7 @@ class PongGUI(Frame):
     plays =1
     __dx = -2
     __dy = -2
- 
+    cpu = True
  
     def __init__(self, parent,screen=[600,400], r=20):
         Frame.__init__(self, parent)   
@@ -82,6 +82,15 @@ class PongGUI(Frame):
 
             self.canvas.configure(bg="#0f"+str(self.bg_status))
             
+            
+        if self.cpu:
+            pos = self.left.get_position()
+            if (pos[1]>self.ball.get_center()[1]):
+                self.left.update_position(self.player_1["Up"])
+            else:
+                self.left.update_position(self.player_1["Down"])
+            
+                
         #Bounce top
         if self.ball.get_position()[1] <= 0:
             self.__dy = -self.__dy
@@ -95,6 +104,7 @@ class PongGUI(Frame):
         if self.left.check_collision(self.ball.get_position()) or self.right.check_collision(self.ball.get_position()):
             self.__dx = -self.__dx
             self.plays +=1
+            self.cpu = not self.cpu
 
 
         if self.ball.get_position()[0] <= 0:
