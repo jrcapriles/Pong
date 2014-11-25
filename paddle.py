@@ -22,7 +22,10 @@ class Paddle( object ):
     def update_position(self, delta_pos):
         self.canvas.move(self.paddle, 0, delta_pos)
         self.pos[1] += delta_pos
-        
+    
+    def re_draw(self):
+        self.canvas.coords(self.paddle, self.pos[0], self.pos[1], self.pos[0]+self.width,self.pos[1]+self.length)
+    
     def check_collision(self, ball_xy):
         return not (ball_xy[2]<self.pos[0] or ball_xy[3] < self.pos[1] or ball_xy[0] > self.pos[0]+self.get_width() or ball_xy[1] > self.pos[1]+self.get_length())
         
@@ -31,7 +34,7 @@ class Paddle( object ):
 
     def set_position(self,pos):
         self.pos = pos
-        self.update()
+        self.re_draw()
         
     def get_position(self):
         return self.pos
