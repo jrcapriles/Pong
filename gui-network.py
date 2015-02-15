@@ -38,7 +38,7 @@ class PongGUI(Frame):
     score = [0,0]
     plays =1
 
-    cpu_enable = True
+    cpu_enable = False
     cpu_turn = True
     buffsize = 1024
 
@@ -59,7 +59,7 @@ class PongGUI(Frame):
         self.bind_all('<KeyRelease>', lambda event: self.key_pressed.discard(event.keysym)) 
         
         self.bind_all('<Escape>',self.end)
-
+        self.connect_server() 
         
     def end(self, event):
         self.master.destroy()
