@@ -19,7 +19,8 @@ from ball import Ball
 from obstable import Obstacle
 import random
 import math
-#from player import Player
+import socket
+
 
 class PongGUI(Frame):
   
@@ -39,7 +40,8 @@ class PongGUI(Frame):
 
     cpu_enable = True
     cpu_turn = True
-    
+    buffsize = 1024
+
     
     #List to check all balls
     balls = []
@@ -62,6 +64,40 @@ class PongGUI(Frame):
     def end(self, event):
         self.master.destroy()
         
+        
+    def connect_server(self):
+        self.setup = True
+        host = 'localhost'
+        port = 9000
+        addr = (host, port)
+        try: 
+            self.tcpclisock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.tcpclisock.connect(addr)
+            print 'Connected to: ', addr
+            self.tcpclisock.setblocking(0)
+            self.parent.title("Pong Client "+'Connected to: '+ str(addr))
+        except:
+            print 'not able to connect to server.'
+            self.create_server()
+
+    def create_server(self):
+        
+        host = ''
+        port = 9000
+        addr = (host, port)
+        self.setup = True
+        
+        print "makeServer():"
+        
+        self.tcpsersock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.tcpsersock.bind(addr)
+        self.tcpsersock.listen(5)
+        self.tcpclisock, addr = self.tcpsersock.accept()
+        self.tcpclisock.setblocking(0)
+        print 'Connected from: ', addr
+        self.parent.title("Pong Server: " + 'Connected from: ' + str(addr))        
+
+
     def initUI(self):
       
         self.parent.title("Pong")        

@@ -17,6 +17,7 @@ class Ball(object):
         self.vel = vel
         self.cpu = True
         self.gravity = False
+        self.plays = 0
         self.canvas = canvas
         self.ball = self.canvas.create_oval(pos[0]-radious, pos[1]-radious, pos[0]+radious,pos[1]+radious, outline=outline, fill=fill, width=2)
         self.last_player = 'None'
@@ -62,6 +63,8 @@ class Ball(object):
         
     def update(self):
         
+        self.check_num_plays()
+        
         if self.gravity:
             self.vel[1] = self.vel[1] - self.g_effect
         
@@ -69,5 +72,10 @@ class Ball(object):
         self.pos[0] = self.pos[0] + self.vel[0]
         self.pos[1] = self.pos[1] + self.vel[1]
 
+
+    def check_num_plays(self):
+        if (self.plays % 5):
+            print "Increasing speed"
+            self.set_velocity([1.1*self.vel[0],1.1*self.vel[1]])
 
 

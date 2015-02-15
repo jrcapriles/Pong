@@ -84,3 +84,4 @@ class Obstacle(object):
         self.pos[1] = self.pos[1] + self.vel[1]
         self.canvas.move(self.obstacle, self.vel[0], self.vel[1])
         
+    
